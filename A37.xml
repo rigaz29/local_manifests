@@ -11,7 +11,7 @@
     repo init -u https://github.com/LineageOS/android.git -b lineage-19.1
     mkdir -p .repo/local_manifests
     cp A37.xml .repo/local_manifests/A37.xml
-    repo sync -c -j$(nproc --all)
+    repo sync -c -j$(nproc)
     source build/envsetup.sh
     breakfast A37     # roomservice pulls stlport + sony/timekeep (lineage.dependencies)
     brunch A37
