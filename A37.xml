@@ -61,16 +61,9 @@
            remote="github"
            revision="lineage-19.0-caf-msm8916" />
 
-  <!-- ================= TODO / NEEDS BUILD-TIME VERIFICATION =================
-       common/BoardConfigCommon.mk has:  include device/qcom/sepolicy-legacy/sepolicy.mk
-       LineageOS ships sepolicy-legacy (non-UM) only up to lineage-16.0 (no 19.1).
-       The entry below pulls 16.0 as a PLACEHOLDER so `make` can resolve the include;
-       its rules may need porting for 12L, or switch the common tree to
-       device/qcom/sepolicy. Confirm/replace after the first build log.
-       ======================================================================== -->
-  <project name="LineageOS/android_device_qcom_sepolicy-legacy"
-           path="device/qcom/sepolicy-legacy"
-           remote="github"
-           revision="lineage-16.0" />
+  <!-- NOTE: device/qcom/sepolicy-legacy is intentionally NOT synced.
+       The common tree's BoardConfigCommon.mk no longer includes it (see commit
+       "drop missing device/qcom/sepolicy-legacy include"), following retiredtab's
+       proven msm8916 19.1 approach of using in-tree sepolicy instead. -->
 
 </manifest>
