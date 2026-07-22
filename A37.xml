@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ================================================================
+  Local manifest: LineageOS 19.1 (Android 12L) for OPPO A37 (A37f)
+  ================================================================
+  SoC      : Qualcomm MSM8916/MSM8939 (Snapdragon 410/615), Cortex-A53
+  Build    : 32-bit userspace (armeabi-v7a) + 64-bit kernel (arm64)
+  Author   : rigaz29 (forks of meghs-playground / gitlab oppoa37)
+
+  Usage:
+    repo init -u https://github.com/LineageOS/android.git -b lineage-19.1
+    mkdir -p .repo/local_manifests
+    cp A37.xml .repo/local_manifests/A37.xml
+    repo sync -c -j$(nproc --all)
+    source build/envsetup.sh
+    breakfast A37     # roomservice pulls stlport + sony/timekeep (lineage.dependencies)
+    brunch A37
+  ================================================================
+-->
+<manifest>
+
+  <!-- Personal fork remote -->
+  <remote name="rigaz29" fetch="https://github.com/rigaz29" />
+
+  <!-- Device tree  (device/oppo/A37) -->
+  <project name="rb_device_oppo_A37"
+           path="device/oppo/A37"
+           remote="rigaz29"
+           revision="lineage-19.1" />
+
+  <!-- Common tree  (msm8916/msm8939 family) -->
+  <project name="android_device_cyanogen_msm8916-common"
+           path="device/cyanogen/msm8916-common"
+           remote="rigaz29"
+           revision="lineage-19.1" />
+
+  <!-- Kernel  (built inline; BoardConfig => TARGET_KERNEL_SOURCE=kernel/oppo/msm8939,
+       TARGET_KERNEL_CONFIG=lineageos_a37f_defconfig, TARGET_KERNEL_ARCH=arm64) -->
+  <project name="kernel_oppo_msm8939"
+           path="kernel/oppo/msm8939"
+           remote="rigaz29"
+           revision="0.0" />
+
+  <!-- Proprietary vendor blobs  (repo root = A37/, so mount at vendor/oppo) -->
+  <project name="proprietary_vendor_oppo_A37"
+           path="vendor/oppo"
+           remote="rigaz29"
+           revision="lineage-19.1" />
+
+  <!-- QCOM CAF HALs for msm8916 (from LineageOS) -->
+  <project name="LineageOS/android_hardware_qcom_audio"
+           path="hardware/qcom-caf/msm8916/audio"
+           remote="github"
+           revision="lineage-19.0-caf-msm8916" />
+  <project name="LineageOS/android_hardware_qcom_display"
+           path="hardware/qcom-caf/msm8916/display"
+           remote="github"
+           revision="lineage-19.0-caf-msm8916" />
+  <project name="LineageOS/android_hardware_qcom_media"
+           path="hardware/qcom-caf/msm8916/media"
+           remote="github"
+           revision="lineage-19.0-caf-msm8916" />
+
+  <!-- ================= TODO / NEEDS BUILD-TIME VERIFICATION =================
+       common/BoardConfigCommon.mk has:  include device/qcom/sepolicy-legacy/sepolicy.mk
+       LineageOS ships sepolicy-legacy (non-UM) only up to lineage-16.0 (no 19.1).
+       The entry below pulls 16.0 as a PLACEHOLDER so `make` can resolve the include;
+       its rules may need porting for 12L, or switch the common tree to
+       device/qcom/sepolicy. Confirm/replace after the first build log.
+       ======================================================================== -->
+  <project name="LineageOS/android_device_qcom_sepolicy-legacy"
+           path="device/qcom/sepolicy-legacy"
+           remote="github"
+           revision="lineage-16.0" />
+
+</manifest>
